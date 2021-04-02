@@ -7,7 +7,7 @@ Projeto de estudo, criando tocados de audio.
 
 Esta aplicação utiliza o framework Flutter na versão 2.0.2, Dart 2.12.1
 
-Utiza os plugins:
+Ultiza os plugins:
     - audioplayers, na versão 0.18.3, disponível no link https://pub.dev/packages/audioplayers.
 
 - [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
