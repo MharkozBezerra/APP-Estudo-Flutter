@@ -1,12 +1,14 @@
 # app_execultrando_sons
 
-A new Flutter project.
+Projeto de estudo, criando tocados de audio.
+ - Projeto criado para estudo, de Mharkoz Bezerra
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Esta aplicação utiliza o framework Flutter na versão 2.0.2, Dart 2.12.1
 
-A few resources to get you started if this is your first Flutter project:
+Utiza os plugins:
+    - audioplayers, na versão 0.18.3, disponível no link https://pub.dev/packages/audioplayers.
 
 - [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
