@@ -1,16 +1,15 @@
 # app_aprenda_ingles
 
-A new Flutter project.
+Este projeto foi desenvolvido, como fruto de um estudo, utilizando Flutter 2.0.2 e Dart.
+Foi utilizado também, um plugin audioplayers, disponível em https://pub.dev/packages/audioplayers na verão 0.18.3.
+As imagens  utilizadas nesse projeto, foram baixadas de um pacote de conteúdo, porem não teve seu criador divulgado.
+Projeto Criado por Mharkoz Bezerra - 02/04/2021 - 14:33
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Projeto que execulta audio em inglês, contendo 3 abas.
+Aba 1 = Bichos, fala qual bicho é em inglês.
+Aba 2 = Número, fala qual número é em ingês.
+Aba 3 = Vogais, não feita até o momento
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Esse projeto terá continuação, e próximas versões.
