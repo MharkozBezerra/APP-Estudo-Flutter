@@ -9,7 +9,8 @@ class Cadastro extends StatefulWidget {
   _CadastroState createState() => _CadastroState();
 }
 
-class _CadastroState extends State<Cadastro> {
+class _CadastroState extends State<Cadastro>
+    with SingleTickerProviderStateMixin {
   //Controladores de texto
   TextEditingController _controllerNome = TextEditingController();
   TextEditingController _controllerEmail = TextEditingController();
@@ -18,7 +19,7 @@ class _CadastroState extends State<Cadastro> {
   ControllerUsuario controllerUsuario = ControllerUsuario();
   UsuarioModel usuario = UsuarioModel();
 
-  validarCadastro() {
+  cadastrar() {
     String nome = _controllerNome.text;
     String email = _controllerEmail.text;
     String senha = _controllerSenha.text;
@@ -26,17 +27,38 @@ class _CadastroState extends State<Cadastro> {
     usuario.nome = nome;
     usuario.email = email;
     usuario.senha = senha;
-
+    _barraProgress(true);
     setState(() {
       msgErro = controllerUsuario.validar(usuario);
       if (msgErro == 'sucesso') {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => Home()),
-        );
+        Future<bool> cadastroOK = controllerUsuario.cadastrarUsuario(usuario);
+        (cadastroOK.then((value) {
+          _barraProgress(false);
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Home()),
+          );
+          msgErro = '';
+        }).catchError((onError) {
+          msgErro = "Erro: " + onError.toString();
+        }));
+        _barraProgress(false);
         msgErro = '';
       }
     });
+  }
+
+  _barraProgress(bool estaCarregando) {
+    Widget loadingIndicator = estaCarregando
+        ? new Container(
+            color: Colors.grey[300],
+            width: 70.0,
+            height: 70.0,
+            child: new Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: new Center(child: new CircularProgressIndicator())),
+          )
+        : new Container();
   }
 
   @override
@@ -133,7 +155,7 @@ class _CadastroState extends State<Cadastro> {
                 Padding(
                   padding: EdgeInsets.only(top: 16, bottom: 10),
                   child: RaisedButton(
-                    onPressed: () => validarCadastro(),
+                    onPressed: () => cadastrar(),
                     child: Text(
                       "Cadastrar",
                       style: TextStyle(

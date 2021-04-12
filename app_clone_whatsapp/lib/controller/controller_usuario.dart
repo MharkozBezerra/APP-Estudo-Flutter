@@ -9,11 +9,11 @@ class ControllerUsuario {
   String _stringRetorno = "";
   FirebaseFirestore banco = FirebaseFirestore.instance;
 
-  bool cadastrarUsuario(UsuarioModel usuario) {
+  Future<bool> cadastrarUsuario(UsuarioModel usuario) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     bool retorno = true;
 
-    auth
+    await auth
         .createUserWithEmailAndPassword(
             email: usuario.email, password: usuario.senha)
         .then((value) {
@@ -55,12 +55,7 @@ class ControllerUsuario {
         return campo = "*Informe sua senha acima de 6 digitos";
       }
     } else {
-      if (cadastrarUsuario(usuario) == true) {
-        return campo = "sucesso";
-      } else {
-        return campo =
-            "Erro ao realizar o cadastro, verifique as informações e tente novamente";
-      }
+      return campo = "sucesso";
     }
   }
 
@@ -124,7 +119,7 @@ class ControllerUsuario {
     }
   }
 
-  bool deslogar(UsuarioModel usuario) {
+  bool deslogar() {
     FirebaseAuth auth = FirebaseAuth.instance;
     var deslogou = (auth.signOut() ?? null);
     return (deslogou != null) ? true : false;

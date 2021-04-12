@@ -23,17 +23,32 @@ class _LoginState extends State<Login> {
 
     usuario.email = email;
     usuario.senha = senha;
-
+    _barraProgress(true);
     setState(() {
       msgErro = controllerUsuario.validarLogin(usuario);
     });
     if (msgErro == 'sucesso') {
+      _barraProgress(false);
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => Home()),
       );
+      _barraProgress(false);
       msgErro = '';
     }
+  }
+
+  _barraProgress(bool estaCarregando) {
+    Widget loadingIndicator = estaCarregando
+        ? new Container(
+            color: Colors.grey[300],
+            width: 70.0,
+            height: 70.0,
+            child: new Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: new Center(child: new CircularProgressIndicator())),
+          )
+        : new Container();
   }
 
   _abrirHome() {
@@ -42,6 +57,10 @@ class _LoginState extends State<Login> {
       context,
       MaterialPageRoute(builder: (context) => Home()),
     );
+  }
+
+  _deslogar() {
+    controllerUsuario.deslogar();
   }
 
   @override
