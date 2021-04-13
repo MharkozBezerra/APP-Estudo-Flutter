@@ -32,7 +32,7 @@ dependencies:
   firebase_storage: ^8.0.2 #Recurso salvar arquivos-use - import 'package:firebase_storage/firebase_storage.dart';
   firebase_auth: ^1.0.2    #Recurso autenticação   -use - import 'package:firebase_auth/firebase_auth.dart';
   firebase_core: ^1.0.3    #Recurso básico         -use - import 'package:firebase_core/firebase_core.dart';
-
+  image_picker: ^0.7.4     #Recurso de imagem      -use - import 'package:image_picker/image_picker.dart';
 dev_dependencies:
   flutter_test:
     sdk: flutter

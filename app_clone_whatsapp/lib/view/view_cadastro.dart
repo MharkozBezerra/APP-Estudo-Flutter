@@ -1,3 +1,4 @@
+import 'package:app_clone_whatsapp/controller/controller_gerador_rotas.dart';
 import 'package:flutter/material.dart';
 import 'package:app_clone_whatsapp/model/model_usuario.dart';
 import 'package:app_clone_whatsapp/controller/controller_usuario.dart';
@@ -34,10 +35,13 @@ class _CadastroState extends State<Cadastro>
         Future<bool> cadastroOK = controllerUsuario.cadastrarUsuario(usuario);
         (cadastroOK.then((value) {
           _barraProgress(false);
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => Home()),
-          );
+          // Navigator.pushReplacement(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => Home()),
+          // );
+          //-> Remove todas as rotas abertas anteriormente
+          Navigator.pushNamedAndRemoveUntil(
+              context, GeradorRotas.ROTA_HOME, (_) => false);
           msgErro = '';
         }).catchError((onError) {
           msgErro = "Erro: " + onError.toString();

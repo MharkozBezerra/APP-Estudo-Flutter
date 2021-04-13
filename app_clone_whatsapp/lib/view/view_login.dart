@@ -1,3 +1,4 @@
+import 'package:app_clone_whatsapp/controller/controller_gerador_rotas.dart';
 import 'package:app_clone_whatsapp/controller/controller_usuario.dart';
 import 'package:app_clone_whatsapp/model/model_usuario.dart';
 import 'package:app_clone_whatsapp/view/view_cadastro.dart';
@@ -53,10 +54,7 @@ class _LoginState extends State<Login> {
 
   _abrirHome() {
     //pushReplacement irá mudar a pagina.
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => Home()),
-    );
+    Navigator.pushReplacementNamed(context, GeradorRotas.ROTA_HOME);
   }
 
   _deslogar() {
@@ -66,14 +64,18 @@ class _LoginState extends State<Login> {
   @override
   void initState() {
     super.initState();
-
-    Future<User> usuarioLogado = controllerUsuario.isLogin();
-    usuarioLogado.then((value) {
-      _abrirHome();
-    });
-    // if (controllerUsuario.isLogin() != null) {
-    //   _abrirHome();
-    // }
+    //verifica se o usurio est logado.
+    var usuarioLogado = controllerUsuario.isLogin();
+    usuarioLogado
+        .then((value) {
+          if (value.uid != null || value.uid != "") {
+            _abrirHome();
+          }
+        })
+        .onError((error, stackTrace) => null)
+        .catchError((onError) {
+          print("Erro: " + onError.toString());
+        });
   }
 
   @override
@@ -184,12 +186,7 @@ class _LoginState extends State<Login> {
                     ),
                     onTap: () {
                       //quando clicar, será direcionado para tela de Cadastro
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Cadastro(),
-                        ),
-                      );
+                      Navigator.pushNamed(context, GeradorRotas.ROTA_CADASTRO);
                     },
                   ),
                 ),

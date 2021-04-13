@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 class UsuarioModel {
-  String _idUsuario;
-  String _nome;
-  String _email;
-  String _senha;
+  String _idUsuario = '';
+  String _nome = '';
+  String _email = '';
+  String _senha = '';
+  String _foto = '';
   //String _sexo;
 
   UsuarioModel();
@@ -12,6 +13,7 @@ class UsuarioModel {
   String get nome => _nome;
   String get senha => _senha;
   String get email => _email;
+  String get foto => _foto;
   //String get sexo => _sexo;
   String get _usuarioID => _idUsuario;
 
@@ -19,7 +21,7 @@ class UsuarioModel {
   set senha(String valor) => _senha = valor;
   set email(String valor) => _email = valor;
   set id(String valor) => _idUsuario = valor;
-
+  set foto(String valor) => _foto = valor;
   /**
    * Cria um map do tipo usuário
    */

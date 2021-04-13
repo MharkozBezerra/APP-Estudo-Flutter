@@ -1,5 +1,7 @@
+import 'package:app_clone_whatsapp/controller/controller_gerador_rotas.dart';
 import 'package:app_clone_whatsapp/view/tabs_page/view_tabs_contato.dart';
 import 'package:app_clone_whatsapp/view/tabs_page/view_tabs_conversa.dart';
+import 'package:app_clone_whatsapp/view/view_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:app_clone_whatsapp/controller/controller_usuario.dart';
@@ -16,7 +18,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   UsuarioModel usuario = UsuarioModel();
   //Utilizado quando estiver um tab na aplicação
   TabController _tabController;
-
+  List<String> itensMenu = ["Configurações", "Deslogar"];
   @override
   void initState() {
     super.initState();
@@ -46,6 +48,19 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     _tabController.dispose();
   }
 
+  _escolhaMenuItem(String itemEscolhido) {
+    switch (itemEscolhido) {
+      case "Configurações":
+        Navigator.pushNamed(context, GeradorRotas.ROTA_CONFIGURACAO);
+        break;
+      case "Deslogar":
+        controllerUsuario.deslogar();
+        Navigator.pushReplacementNamed(context, GeradorRotas.ROTA_LOGIN);
+        break;
+      default:
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,6 +84,16 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             ),
           ],
         ),
+        actions: <Widget>[
+          PopupMenuButton<String>(
+            onSelected: _escolhaMenuItem,
+            itemBuilder: (context) {
+              return itensMenu.map((String item) {
+                return PopupMenuItem<String>(value: item, child: Text(item));
+              }).toList();
+            },
+          ),
+        ],
       ),
       body: TabBarView(
         controller: _tabController,

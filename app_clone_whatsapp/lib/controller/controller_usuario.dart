@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:app_clone_whatsapp/model/model_usuario.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:io';
 
 class ControllerUsuario {
   String _stringRetorno = "";
@@ -106,12 +107,25 @@ class ControllerUsuario {
     }
   }
 
-  Future getUsuario() async {
+  Future<UsuarioModel> getUsuario() async {
     User usuarioLogado = await FirebaseAuth.instance.currentUser;
     UsuarioModel usuario = UsuarioModel();
     if (usuarioLogado != null) {
       usuario.email = usuarioLogado.email;
       usuario.id = usuarioLogado.uid;
+
+      if (usuario.id != null) {
+        DocumentSnapshot snapshot =
+            await banco.collection('usuarios').doc(usuario.id).get();
+        Map<String, dynamic> dados = snapshot.data();
+
+        usuario.nome = dados['nome'];
+        if (dados['foto'] != null) {
+          usuario.foto = dados['foto'];
+        } else {
+          usuario.foto = '';
+        }
+      }
 
       return usuario;
     } else {
@@ -126,4 +140,55 @@ class ControllerUsuario {
   }
 
   atualizarDados(UsuarioModel usuario) {}
+
+  Future uploadImagemUsuario(File imagem, UsuarioModel usuario) async {
+    FirebaseStorage storage = FirebaseStorage.instance;
+    UploadTask task;
+    String link = '';
+    var pastaRaiz = storage.ref();
+    var arquivo = pastaRaiz.child('perfil').child(usuario.id + '.jpg');
+
+    if (imagem != null) {
+      task = arquivo.putFile(imagem);
+
+      task.snapshotEvents.listen((TaskSnapshot snapshot) {
+        print('Task state: ${snapshot.state}');
+        print(
+            'Subindo: ${(snapshot.bytesTransferred / snapshot.totalBytes) * 100} %');
+      }, onError: (e) {
+        // The final snapshot is also available on the task via `.snapshot`,
+        // this can include 2 additional states, `TaskState.error` & `TaskState.canceled`
+        print(task.snapshot);
+        if (e.code == 'permission-denied') {
+          print('Usuario sem permissao.');
+        }
+      });
+      // We can still optionally use the Future alongside the stream.
+      try {
+        await task;
+        //await task.snapshot.ref.getDownloadURL();
+        link = await getImagemUsuario(task.snapshot, usuario);
+        print('Upload complete. ' + link.toString());
+      } on FirebaseException catch (e) {
+        if (e.code == 'permission-denied') {
+          print('User does not have permission to upload to this reference.');
+        }
+        // ...
+      }
+      return link;
+    } else {
+      return '';
+    }
+  }
+
+  atualizarFotoNomeUsuario(String url, UsuarioModel usuario) {
+    Map<String, dynamic> dadosAtualizar = {'foto': url, 'nome': usuario.nome};
+    banco.collection('usuarios').doc(usuario.id).update(dadosAtualizar);
+  }
+
+  Future getImagemUsuario(TaskSnapshot snapshot, UsuarioModel usuario) async {
+    String url = await snapshot.ref.getDownloadURL();
+    atualizarFotoNomeUsuario(url, usuario);
+    return url;
+  }
 }

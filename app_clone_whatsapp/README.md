@@ -10,6 +10,7 @@ Utilizando as bibliotécas:
 - [firebase_auth 1.0.2]    (https://pub.dev/packages/firebase_auth)
 - [firebase_storage 8.0.2] (https://pub.dev/packages/firebase_storage)
 - [cloud_firestore 1.0.4 ] (https://pub.dev/packages/cloud_firestore)
+- [image_picker 0.7.4] (https://pub.dev/packages/image_picker)
 
 SDK Flutter, nesse projeto encontra-se na versão :2.0.2 estável.
 -Mharkoz Bezerra
@@ -28,11 +29,17 @@ Imagens do app:
 Arquitetura MVC "Model View Controller"
 Model:
  - model_usuario.dart / classe: ModelUsuario
+
 View:
  - view_login.dart /classe: Login
  - view_cadastro.dart / classe: Cadastro
  - view_home.dart / classe: Home
+ - view_configuracao.dart / classe: Configuracao
+ - tabs_page/view_tabs_contato.dart / classe: ContatoPage
+ - tabs_page/view_tabs_conversa.dart / classe: ConversaPage
+
 Controller:
  - controller_usuario.dart / classe: ControllerUsuario
+ - controller_gerador_rota.dart / classe: GeradorRotas
 
 
